@@ -1,2 +1,9 @@
-
+<head>
+<style type="text/css">
+  p {
+    border: 1px solid black;
+  }
+</style>
+  <link rel="stylesheet" href="CSS/styles.css">
+</head>
 <b>This</b> is my <i>first</i> blog post with Jekyll.
