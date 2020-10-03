@@ -1,8 +1,8 @@
 # Site settings
 title: Kathryn.tech
-description: 'Helloooo'
-url: 'http://joshgerdes.com/jekyll-uno'
-baseurl: '/jekyll-uno'
+description: 'A blog for Bluetooth and other exciting stuff!'
+url: 'https://kathrynmcbain.github.io/jekyll-uno'
+baseurl: '/'
 # google_analytics: 'UA-XXXXXX-X'
 # disqus_shortname: 'your-disqus-name'
 
