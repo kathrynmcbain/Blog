@@ -2,7 +2,7 @@
 title: Kathryn.tech
 description: 'A blog for Bluetooth and other exciting stuff!'
 url: 'https://kathrynmcbain.github.io/jekyll-uno'
-baseurl: '/jekyll-uno'
+baseurl: '/'
 # google_analytics: 'UA-XXXXXX-X'
 # disqus_shortname: 'your-disqus-name'
 
