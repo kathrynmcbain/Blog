@@ -2,39 +2,119 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Kathryn.tech</title>
-    <description>Helloooo</description>
-    <link>http://localhost:4000/jekyll-uno/</link>
-    <atom:link href="http://localhost:4000/jekyll-uno/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 03 Oct 2020 16:56:09 +0100</pubDate>
-    <lastBuildDate>Sat, 03 Oct 2020 16:56:09 +0100</lastBuildDate>
+    <description>A blog for Bluetooth and other exciting stuff!</description>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Sun, 04 Oct 2020 18:10:55 +0100</pubDate>
+    <lastBuildDate>Sun, 04 Oct 2020 18:10:55 +0100</lastBuildDate>
     <generator>Jekyll v3.9.0</generator>
     
       <item>
-        <title>Welcome to Jekyll!</title>
-        <description>&lt;p&gt;You’ll find this post in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jekyll serve --watch&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+        <title>The First of Many Bluetooth Low Energy Vulnerabilities</title>
+        <description>&lt;p&gt;Introduced in 2009, Bluetooth 4.0 or Bluetooth Low Energy (BLE) has fast become one of the most popular communication methods around. This is largely due to the exponential growth of “Internet of things” (IoT) devices which, by their nature, demand low power consumption. However, low power consumption appears to go hand-in-hand with low security when it comes to early versions of BLE.&lt;/p&gt;
 
-&lt;p&gt;To add new posts, simply add a file in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+&lt;p&gt;Fast forward to 2020 and the introduction - or lack of - Contact-tracing apps, there has been a resurgence interest in the security issues surrounding Bluetooth and it’s various different versions. These apps will undoubtably use the most recent version of Bluetooth (5.2 – Sept ‘20), but that doesn’t mean that there aren’t still lots of heart-rate monitors, blood-glucose counters and various other healthcare devices kicking about still running on the very vulnerable versions of 4.0 and 4.1!&lt;/p&gt;
 
-&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+&lt;p&gt;This post explains how a weakness in the pairing process in these versions can be exploited to decrypt communications between devices. It makes use of Crackle &lt;a href=&quot;https://github.com/mikeryan/crackle&quot;&gt;available on Github&lt;/a&gt;, developed by researcher Mike Ryan, to do the maths involved in breaking the encryption.&lt;/p&gt;
 
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Tom'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints 'Hi, Tom' to STDOUT.&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Ryan’s work talks about a vulnerability established during the paring process – where two Bluetooth devices initially make contact, recognise each other and agree on how future communications will proceed.&lt;/p&gt;
 
-&lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://github.com/jekyll/jekyll-help&quot;&gt;Jekyll’s dedicated Help repository&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;NIST (National Institute of Standards and Technology) have a useful diagram for explaining this vulnerable pairing process. Each phase involves the generation of a key to be used in the rest of the communication process – &lt;strong&gt;Temporary Key&lt;/strong&gt;, &lt;strong&gt;Short-Term Key&lt;/strong&gt; and then &lt;strong&gt;Long-Term Key&lt;/strong&gt;.
+&lt;img src=&quot;/images/NISTPP.jpg&quot; alt=&quot;Image of NIST BLE Pairing Process&quot; title=&quot;NIST: BLE Pairing Process&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;phase-one---temporary-key-tk&quot;&gt;Phase One - Temporary Key (TK):&lt;/h2&gt;
+&lt;p&gt;This initial communication involves creation of the TK using one of three methods:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Pass Key
+When pairing Bluetooth devices for the first time, you may be asked to enter four or six digit passcode displayed on device one, into device two. This is known as Pass Key pairing. You will have seen this when connecting your phone to your car etc.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;JustWorks
+Here the initial value of the TK is automatically set to zero. This method is really common when the pairing devices do not have any input/output capabilities such as a keypad or display.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Out-of Band (OOB)
+The most secure method is Out-of Band (OBB), as code is transmitted via another medium, perhaps Near Field Communication. This is how the Apple watch manages initial BLE pairing requests.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The result of any of these pairing methods becomes the value of the TK. If JustWorks and its standard value of zero was used – you’ve just practically been handed all communications in plaintext!
+ &lt;/p&gt;
+
+&lt;h2 id=&quot;phase-two--short-term-key-stk&quot;&gt;Phase Two – Short-term Key (STK):&lt;/h2&gt;
+
+&lt;p&gt;Now that the TK has been created and each device has confirmed its value, phase two takes the TK and produces a STK using AES and incorporating a random value generated by both the Slave (MRand) and Master (SRand). This value is used to encrypt a communication channel between the master and slave devices in order to facilitate phase three.&lt;/p&gt;
+
+&lt;h2 id=&quot;phase-three--long-term-key-ltk&quot;&gt;Phase Three – Long-term Key (LTK):&lt;/h2&gt;
+&lt;p&gt;The final phase involves production of the LTK which is the key will be used to encrypt all further communications between master and slave. The LTK can either be a completely random 128-bit number or the result of a function (d1) with an Encryption Root (ER) - a random 128-bit number, and a DIV (Diversifier) - a 16-bit value unique to each device. The NIST diagram also references IRK (Identity Resolving Key) and CSRK (Connection Signature Resolving Key). However, these values are not required for the operation of Crackle.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-practical-part&quot;&gt;The practical part…&lt;/h2&gt;
+
+&lt;p&gt;These above mentioned pairing process is integral to Crackle’s operation. Crackle is programmed with the ability to either guess or brute force the TK, which can be used to calculate the STK. Once these have been obtained, Crackle can ‘crack’ LTK ultimately leading to the ability to decrypt communications.&lt;/p&gt;
+
+&lt;p&gt;If you want to do some eavesdropping on BLE communications, unfortunately you need some kind of sniffing device which can capture Bluetooth packets (see Ubertooth). One (efficient) security measure of Bluetooth is that devices engage in ‘channel hopping’ as frequent as 1600 times a second, making it extremely difficult to follow communications without more specialist hardware like the Ubertooth.&lt;/p&gt;
+
+&lt;p&gt;Fortunately for us, Crackle’s Github repository provides some pre-captured PCAP files that we can use to simulate breaking the encryption and getting access to device communications.&lt;/p&gt;
+
+&lt;p&gt;The first PCAP file shows an example of a pairing process with all packets intact and present. The first 515 packets of this example are simply broadcast packets of the Slave device advertising itself as available. Packet No.516 is a connection request from what will become the Master device. In this packet, the Master also outlines important information such as which channels the connection will use as well as the hop interval. This is critical information for both devices, as it allows them to follow the everchanging path of communication.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/ConnectReq.jpg&quot; alt=&quot;Packet Capture showing Connection Request&amp;quot; &quot; title=&quot;Packet Capture showing Connection Request&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The next few packets are exchanging of the TK and set up of the STK before finally passing the LTK to encrypt all future communications. However, as everything after the initial exchange of the TK is encrypted in some form, this information cannot be seen in packets without the use of Crackle.&lt;/p&gt;
+
+&lt;p&gt;The following example shows Crackle run with the flags -i and -o which specify an input PCAP and a filename for the decrypted version of the PCAP file that Crackle will create.&lt;/p&gt;
+
+&lt;div class=&quot;language-console highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;go&quot;&gt;crackle -i tests/01_crack/pairing_and_ltk_exchange.pcap -o outputs/01_out.pcap
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/CrackleOut.jpg&quot; alt=&quot;Output screen from Crackle&amp;quot; &quot; title=&quot;Crackle Result&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The output shows that 3 packets have been decrypted. These are the packets which contain the following data:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Opcode: LL_START_ENC_RSP (Found at packet: 585)
+This packet is the Master’s response to the Slave’s request to encrypt communications using the recently calculated STK. This will facilitate the ‘encrypted’ disclosure of the LTK in the next significant communication. However Crackle does not to include the value of the STK in the terminal output.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Opcode: ENCRYPTION INFORMATION (Found at packet: 589)
+This is the transfer of the LTK. For example, on examination of the output PCAP file, the LTK can now be seen in packet No.589. It is displayed in little endian, because this is the format BLE chooses to send keys. However, this will be converted to big endian in order to decrypt the AES cipher.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Opcode: LL_TERMINATE_IND (Found at packet: 713)
+ Serves as an example for all future communications. Opcodes are instructions for either the slave or master device. In this instance, it is just the Opcode to share the LTK. However, if the devices were to exchange any further information such as the current heart rate from a medical device, these packets would also be decrypted be decrypted by Crackle.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/LTK.jpg&quot; alt=&quot;Decrypted Packet showing LTK&amp;quot; &quot; title=&quot;Decrypted Packet showing LTK&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;If we did want to manipulate the function of a BLE device, Control opcodes and their subsequent data are what we are looking for – these are known as Services, and Characteristics. These are identified by 16 or 128 bit UUIDs. Most of these have been standardised by Bluetooth SIG and explained as part of their specifications. However, some devices have very specific operations and as a result will use their own custom Services.  These are explained in individual device manufacturer documentation and often this has found its way onto the web for wannabe hackers to utilise. Alternatively, if you have access to both the master and slave devices, you can work these out by changing inputs/outputs from the master and slave and sniffing traffic to see what UUIDs fly past.&lt;/p&gt;
+
+&lt;p&gt;If you can spare £100+ for an Ubertooth to successfully capture traffic and you manage to obtain some of the Service codes, then a BLE device could be under your control in a matter of minutes. All you need to do now is use your own device, such as a laptop, to pair (or spoof pairing) and send over your Service codes. Although his method was slightly different, Mike Ryan actually got CVE-2015-2247 for managing to send service codes which modified the movements of a BLE enabled electric skateboard!&lt;/p&gt;
+
+&lt;p&gt;In conclusion, any devices running BLE versions 4.0 and 4.1 are vulnerable to having their encryption keys exposed with tools like Crackle. Once exposed, communications between master and slave devices can be uncovered – these include not only data which may be classed as sensitive such as healthcare information, but also opcodes and instructions which can be used to manipulate the device’s operation.&lt;/p&gt;
+
+&lt;p&gt;It took them a few years, but Bluetooth SIG removed this symmetric encryption vulnerability in the next Bluetooth release (version 4.2) by introducing Elliptic-Curve Diffie-Helman (ECDH) key exchange. It’s also important to point out that this certainly wasn’t the end of BLE vulnerabilities… but more on this in future posts.&lt;/p&gt;
+
+&lt;p&gt;Disclaimer – Don’t do bad things with your newfound BLE knowledge. Also please do let me know if I’ve got something not quite right or, if you have a question I can be found at the end of the Twitter handle @kathrynmcbain.&lt;/p&gt;
 
 </description>
-        <pubDate>Fri, 08 Jan 2016 15:04:23 +0000</pubDate>
-        <link>http://localhost:4000/jekyll-uno/2016/welcome-to-jekyll/</link>
-        <guid isPermaLink="true">http://localhost:4000/jekyll-uno/2016/welcome-to-jekyll/</guid>
+        <pubDate>Sun, 04 Oct 2020 16:04:23 +0100</pubDate>
+        <link>http://localhost:4000/2020/The-First-Of-Many-BLE-Vulnerabilities/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/The-First-Of-Many-BLE-Vulnerabilities/</guid>
         
-        <category>jekyll</category>
+        <category>BLE</category>
+        
+        <category>BLE 4.0</category>
+        
+        <category>BLE 4.1</category>
+        
+        <category>BLE vulnerabilities</category>
         
         
-        <category>jekyll</category>
+        <category>BLE</category>
         
       </item>
     

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+
+  <title>The First of Many Bluetooth Low Energy Vulnerabilities</title>
+  <meta name="description" content="Introduced in 2009, Bluetooth 4.0 or Bluetooth Low Energy (BLE) has fast become one of the most popular communication methods around. This is largely due to the exponential growth of “Internet of things” (IoT) devices which, by their nature, demand low power consumption. However, low power consumption appears to go hand-in-hand with low security when it comes to early versions of BLE.
+
+">
+  <meta name="author" content="Kathryn McBain">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="The First of Many Bluetooth Low Energy Vulnerabilities">
+  <meta name="twitter:description" content="Introduced in 2009, Bluetooth 4.0 or Bluetooth Low Energy (BLE) has fast become one of the most popular communication methods around. This is largely due to the exponential growth of “Internet of things” (IoT) devices which, by their nature, demand low power consumption. However, low power consumption appears to go hand-in-hand with low security when it comes to early versions of BLE.
+
+">
+  
+  <meta name="twitter:creator" content="KathrynMcBain">
+  
+  <meta name="twitter:image" content="/images/favicons/favicon-194x194.png" />
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="The First of Many Bluetooth Low Energy Vulnerabilities">
+  <meta property="og:description" content="Introduced in 2009, Bluetooth 4.0 or Bluetooth Low Energy (BLE) has fast become one of the most popular communication methods around. This is largely due to the exponential growth of “Internet of things” (IoT) devices which, by their nature, demand low power consumption. However, low power consumption appears to go hand-in-hand with low security when it comes to early versions of BLE.
+
+">
+  <meta property="og:image" content="/images/favicons/favicon-194x194.png" />
+
+  <link rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/images/favicons/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/images/favicons/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/favicons/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/images/favicons/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/images/favicons/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/images/favicons/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/images/favicons/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon-180x180.png">
+  <link rel="icon" type="image/png" href="/images/favicons/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/images/favicons/favicon-194x194.png" sizes="194x194">
+  <link rel="icon" type="image/png" href="/images/favicons/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/png" href="/images/favicons/android-chrome-192x192.png" sizes="192x192">
+  <link rel="icon" type="image/png" href="/images/favicons/favicon-16x16.png" sizes="16x16">
+  <link rel="manifest" href="/images/favicons/manifest.json">
+  <link rel="shortcut icon" href="/images/favicons/favicon.ico">
+  <meta name="msapplication-TileColor" content="#ffc40d">
+  <meta name="msapplication-TileImage" content="/images/favicons/mstile-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+  
+  <link rel="stylesheet" href="/css/main.css?1601831455135239000">
+  <link rel="canonical" href="http://localhost:4000/2020/The-First-Of-Many-BLE-Vulnerabilities/">
+  <link rel="alternate" type="application/rss+xml" title="Kathryn.tech" href="/feed.xml">
+</head>
+
+
+  <body>
+    <span class="mobile btn-mobile-menu">
+  <i class="icon icon-list btn-mobile-menu__icon"></i>
+  <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+</span>
+
+<header class="panel-cover" style="background-image: url(/images/cover.jpg)">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+        <a href="/" title="link to home of Kathryn.tech">
+          <img src="/images/profile.jpg" class="user-image" alt="My Profile Photo">
+          <h1 class="panel-cover__title panel-title">Kathryn.tech</h1>
+        </a>
+        <hr class="panel-cover__divider">
+        <p class="panel-cover__description">A blog for Bluetooth and other exciting stuff!</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary">
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="link to Kathryn.tech blog" class="blog-button">Blog</a></li>
+            </ul>
+          </nav>
+
+          <nav class="cover-navigation navigation--social">
+            <ul class="navigation">
+
+            
+              <!-- Twitter -->
+              <li class="navigation__item">
+                <a href="http://twitter.com/KathrynMcBain" title="@KathrynMcBain on Twitter" target="_blank">
+                  <i class="icon icon-social-twitter"></i>
+                  <span class="label">Twitter</span>
+                </a>
+              </li>
+            
+
+            
+
+            
+
+            
+              <!-- GitHub -->
+              <li class="navigation__item">
+                <a href="https://www.github.com/KathrynMcBain" title="KathrynMcBain on GitHub" target="_blank">
+                  <i class="icon icon-social-github"></i>
+                  <span class="label">GitHub</span>
+                </a>
+              </li>
+            
+
+            
+
+            <!-- RSS -->
+            <li class="navigation__item">
+              <a href="/feed.xml" title="Subscribe" target="_blank">
+                <i class="icon icon-rss"></i>
+                <span class="label">RSS</span>
+              </a>
+            </li>
+
+            </ul>
+          </nav>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+      <div class="content-wrapper__inner">
+        <article class="post-container post-container--single">
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2020-10-04 16:04" class="post-meta__date date">4 Oct 2020</time>
+      
+      &#8226; <span class="post-meta__tags">on <a href="/tags/#BLE">BLE</a>, <a href="/tags/#BLE 4.0">BLE 4.0</a>, <a href="/tags/#BLE 4.1">BLE 4.1</a>, <a href="/tags/#BLE vulnerabilities">BLE vulnerabilities</a></span>
+      
+    </div>
+    <h1 class="post-title">The First of Many Bluetooth Low Energy Vulnerabilities</h1>
+  </header>
+
+  <section class="post">
+    <p>Introduced in 2009, Bluetooth 4.0 or Bluetooth Low Energy (BLE) has fast become one of the most popular communication methods around. This is largely due to the exponential growth of “Internet of things” (IoT) devices which, by their nature, demand low power consumption. However, low power consumption appears to go hand-in-hand with low security when it comes to early versions of BLE.</p>
+
+<p>Fast forward to 2020 and the introduction - or lack of - Contact-tracing apps, there has been a resurgence interest in the security issues surrounding Bluetooth and it’s various different versions. These apps will undoubtably use the most recent version of Bluetooth (5.2 – Sept ‘20), but that doesn’t mean that there aren’t still lots of heart-rate monitors, blood-glucose counters and various other healthcare devices kicking about still running on the very vulnerable versions of 4.0 and 4.1!</p>
+
+<p>This post explains how a weakness in the pairing process in these versions can be exploited to decrypt communications between devices. It makes use of Crackle <a href="https://github.com/mikeryan/crackle">available on Github</a>, developed by researcher Mike Ryan, to do the maths involved in breaking the encryption.</p>
+
+<p>Ryan’s work talks about a vulnerability established during the paring process – where two Bluetooth devices initially make contact, recognise each other and agree on how future communications will proceed.</p>
+
+<p>NIST (National Institute of Standards and Technology) have a useful diagram for explaining this vulnerable pairing process. Each phase involves the generation of a key to be used in the rest of the communication process – <strong>Temporary Key</strong>, <strong>Short-Term Key</strong> and then <strong>Long-Term Key</strong>.
+<img src="/images/NISTPP.jpg" alt="Image of NIST BLE Pairing Process" title="NIST: BLE Pairing Process" /></p>
+
+<h2 id="phase-one---temporary-key-tk">Phase One - Temporary Key (TK):</h2>
+<p>This initial communication involves creation of the TK using one of three methods:</p>
+
+<ul>
+  <li>
+    <p>Pass Key
+When pairing Bluetooth devices for the first time, you may be asked to enter four or six digit passcode displayed on device one, into device two. This is known as Pass Key pairing. You will have seen this when connecting your phone to your car etc.</p>
+  </li>
+  <li>
+    <p>JustWorks
+Here the initial value of the TK is automatically set to zero. This method is really common when the pairing devices do not have any input/output capabilities such as a keypad or display.</p>
+  </li>
+  <li>
+    <p>Out-of Band (OOB)
+The most secure method is Out-of Band (OBB), as code is transmitted via another medium, perhaps Near Field Communication. This is how the Apple watch manages initial BLE pairing requests.</p>
+  </li>
+</ul>
+
+<p>The result of any of these pairing methods becomes the value of the TK. If JustWorks and its standard value of zero was used – you’ve just practically been handed all communications in plaintext!
+ </p>
+
+<h2 id="phase-two--short-term-key-stk">Phase Two – Short-term Key (STK):</h2>
+
+<p>Now that the TK has been created and each device has confirmed its value, phase two takes the TK and produces a STK using AES and incorporating a random value generated by both the Slave (MRand) and Master (SRand). This value is used to encrypt a communication channel between the master and slave devices in order to facilitate phase three.</p>
+
+<h2 id="phase-three--long-term-key-ltk">Phase Three – Long-term Key (LTK):</h2>
+<p>The final phase involves production of the LTK which is the key will be used to encrypt all further communications between master and slave. The LTK can either be a completely random 128-bit number or the result of a function (d1) with an Encryption Root (ER) - a random 128-bit number, and a DIV (Diversifier) - a 16-bit value unique to each device. The NIST diagram also references IRK (Identity Resolving Key) and CSRK (Connection Signature Resolving Key). However, these values are not required for the operation of Crackle.</p>
+
+<h2 id="the-practical-part">The practical part…</h2>
+
+<p>These above mentioned pairing process is integral to Crackle’s operation. Crackle is programmed with the ability to either guess or brute force the TK, which can be used to calculate the STK. Once these have been obtained, Crackle can ‘crack’ LTK ultimately leading to the ability to decrypt communications.</p>
+
+<p>If you want to do some eavesdropping on BLE communications, unfortunately you need some kind of sniffing device which can capture Bluetooth packets (see Ubertooth). One (efficient) security measure of Bluetooth is that devices engage in ‘channel hopping’ as frequent as 1600 times a second, making it extremely difficult to follow communications without more specialist hardware like the Ubertooth.</p>
+
+<p>Fortunately for us, Crackle’s Github repository provides some pre-captured PCAP files that we can use to simulate breaking the encryption and getting access to device communications.</p>
+
+<p>The first PCAP file shows an example of a pairing process with all packets intact and present. The first 515 packets of this example are simply broadcast packets of the Slave device advertising itself as available. Packet No.516 is a connection request from what will become the Master device. In this packet, the Master also outlines important information such as which channels the connection will use as well as the hop interval. This is critical information for both devices, as it allows them to follow the everchanging path of communication.</p>
+
+<p><img src="/images/ConnectReq.jpg" alt="Packet Capture showing Connection Request&quot; " title="Packet Capture showing Connection Request" /></p>
+
+<p>The next few packets are exchanging of the TK and set up of the STK before finally passing the LTK to encrypt all future communications. However, as everything after the initial exchange of the TK is encrypted in some form, this information cannot be seen in packets without the use of Crackle.</p>
+
+<p>The following example shows Crackle run with the flags -i and -o which specify an input PCAP and a filename for the decrypted version of the PCAP file that Crackle will create.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">crackle -i tests/01_crack/pairing_and_ltk_exchange.pcap -o outputs/01_out.pcap
+</span></code></pre></div></div>
+
+<p><img src="/images/CrackleOut.jpg" alt="Output screen from Crackle&quot; " title="Crackle Result" /></p>
+
+<p>The output shows that 3 packets have been decrypted. These are the packets which contain the following data:</p>
+
+<ul>
+  <li>
+    <p>Opcode: LL_START_ENC_RSP (Found at packet: 585)
+This packet is the Master’s response to the Slave’s request to encrypt communications using the recently calculated STK. This will facilitate the ‘encrypted’ disclosure of the LTK in the next significant communication. However Crackle does not to include the value of the STK in the terminal output.</p>
+  </li>
+  <li>
+    <p>Opcode: ENCRYPTION INFORMATION (Found at packet: 589)
+This is the transfer of the LTK. For example, on examination of the output PCAP file, the LTK can now be seen in packet No.589. It is displayed in little endian, because this is the format BLE chooses to send keys. However, this will be converted to big endian in order to decrypt the AES cipher.</p>
+  </li>
+  <li>
+    <p>Opcode: LL_TERMINATE_IND (Found at packet: 713)
+ Serves as an example for all future communications. Opcodes are instructions for either the slave or master device. In this instance, it is just the Opcode to share the LTK. However, if the devices were to exchange any further information such as the current heart rate from a medical device, these packets would also be decrypted be decrypted by Crackle.</p>
+  </li>
+</ul>
+
+<p><img src="/images/LTK.jpg" alt="Decrypted Packet showing LTK&quot; " title="Decrypted Packet showing LTK" /></p>
+
+<p>If we did want to manipulate the function of a BLE device, Control opcodes and their subsequent data are what we are looking for – these are known as Services, and Characteristics. These are identified by 16 or 128 bit UUIDs. Most of these have been standardised by Bluetooth SIG and explained as part of their specifications. However, some devices have very specific operations and as a result will use their own custom Services.  These are explained in individual device manufacturer documentation and often this has found its way onto the web for wannabe hackers to utilise. Alternatively, if you have access to both the master and slave devices, you can work these out by changing inputs/outputs from the master and slave and sniffing traffic to see what UUIDs fly past.</p>
+
+<p>If you can spare £100+ for an Ubertooth to successfully capture traffic and you manage to obtain some of the Service codes, then a BLE device could be under your control in a matter of minutes. All you need to do now is use your own device, such as a laptop, to pair (or spoof pairing) and send over your Service codes. Although his method was slightly different, Mike Ryan actually got CVE-2015-2247 for managing to send service codes which modified the movements of a BLE enabled electric skateboard!</p>
+
+<p>In conclusion, any devices running BLE versions 4.0 and 4.1 are vulnerable to having their encryption keys exposed with tools like Crackle. Once exposed, communications between master and slave devices can be uncovered – these include not only data which may be classed as sensitive such as healthcare information, but also opcodes and instructions which can be used to manipulate the device’s operation.</p>
+
+<p>It took them a few years, but Bluetooth SIG removed this symmetric encryption vulnerability in the next Bluetooth release (version 4.2) by introducing Elliptic-Curve Diffie-Helman (ECDH) key exchange. It’s also important to point out that this certainly wasn’t the end of BLE vulnerabilities… but more on this in future posts.</p>
+
+<p>Disclaimer – Don’t do bad things with your newfound BLE knowledge. Also please do let me know if I’ve got something not quite right or, if you have a question I can be found at the end of the Twitter handle @kathrynmcbain.</p>
+
+
+  </section>
+  
+</article>
+
+
+
+      </div>
+
+      <footer class="footer">
+  <span class="footer__copyright">&copy; 2020 Kathryn McBain. All rights reserved.</span>
+</footer>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="/js/main.js?1601831455135239000"></script>
+
+
+    </div>
+  </body>
+</html>
