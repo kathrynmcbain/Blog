@@ -1,5 +1,5 @@
 ---
-title:  "The First of Many Bluetooth Low Energy Vulnerabilities"
+title:  "The First (of many) Bluetooth Low Energy Vulnerabilities"
 date:   2020-10-04 15:04:23
 categories: [BLE]
 tags: [BLE, BLE 4.0, BLE 4.1, BLE vulnerabilities]
