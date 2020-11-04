@@ -7,7 +7,7 @@ tags: [BLE, BLE 4.0, BLE 4.1, BLE vulnerabilities]
 
 Introduced in 2009, Bluetooth 4.0 or Bluetooth Low Energy (BLE) has fast become one of the most popular communication methods around. This is largely due to the exponential growth of “Internet of things” (IoT) devices which, by their nature, demand low power consumption. However, low power consumption appears to go hand-in-hand with low security when it comes to early versions of BLE. 
 
-Fast forward to 2020 and the introduction - or lack of - Contact-tracing apps, there has been a resurgence interest in the security issues surrounding Bluetooth and it’s various different versions. These apps will undoubtably use the most recent version of Bluetooth (5.2 – Sept ‘20), but that doesn’t mean that there aren’t still lots of heart-rate monitors, blood-glucose counters and various other healthcare devices kicking about still running on the very vulnerable versions of 4.0 and 4.1!
+Fast forward to 2020 and the introduction - or lack of - Contact-tracing apps, there has been a resurgence interest in the security issues surrounding Bluetooth and it’s various different versions. Most smartphones run Bluetooth Versions 4.2 onwards (not all - more on that in future posts), but that doesn’t mean that there aren’t still lots of heart-rate monitors, blood-glucose counters and various other healthcare devices kicking about still running on the very vulnerable versions of 4.0 and 4.1!
 
 This post explains how a weakness in the pairing process in these versions can be exploited to decrypt communications between devices. It makes use of Crackle [available on Github](https://github.com/mikeryan/crackle), developed by researcher Mike Ryan, to do the maths involved in breaking the encryption. 
 
@@ -90,6 +90,6 @@ In conclusion, any devices running BLE versions 4.0 and 4.1 are vulnerable to ha
 
 It took them a few years, but Bluetooth SIG removed this symmetric encryption vulnerability in the next Bluetooth release (version 4.2) by introducing Elliptic-Curve Diffie-Helman (ECDH) key exchange. It’s also important to point out that this certainly wasn’t the end of BLE vulnerabilities… but more on this in future posts.
 
-Disclaimer – Don’t do bad things with your newfound BLE knowledge. Also please do let me know if I’ve got something not quite right or, if you have a question I can be found at the end of the Twitter handle @kathrynmcbain.
+Disclaimer – Don’t do bad things with your newfound BLE knowledge. Also please do let me know if I’ve got something not quite right or, if you have a question, I can be found at the end of the Twitter handle [@kathrynmcbain](https://twitter.come/kathrynmcbain).
  
 
