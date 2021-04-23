@@ -90,6 +90,6 @@ In conclusion, any devices running BLE versions 4.0 and 4.1 are vulnerable to ha
 
 It took them a few years, but Bluetooth SIG removed this symmetric encryption vulnerability in the next Bluetooth release (version 4.2) by introducing Elliptic-Curve Diffie-Helman (ECDH) key exchange. It’s also important to point out that this certainly wasn’t the end of BLE vulnerabilities… but more on this in future posts.
 
-Disclaimer – Don’t do bad things with your newfound BLE knowledge. Also please do let me know if I’ve got something not quite right or, if you have a question, I can be found at the end of the Twitter handle [@kathrynmcbain](https://twitter.come/kathrynmcbain).
+Disclaimer – Don’t do bad things with your newfound BLE knowledge. Also please do let me know if I’ve got something not quite right or, if you have a question, I can be found at the end of the Twitter handle [@sudoKathryn](https://twitter.com/sudokathryn).
  
 
